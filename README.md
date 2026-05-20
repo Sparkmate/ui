@@ -651,12 +651,4 @@ bun run typecheck
 bun run build     # outputs dist/ for publish
 ```
 
-Optional commit-time version bump hook:
-
-```bash
-bun run hooks:install
-```
-
-On each commit: `p` patch, `m` minor, `M` major, `s` skip. Bypass once: `SKIP_VERSION_BUMP=1 git commit -m "message"`.
-
 Publishing: [docs/NPM_PUBLISH.md](./docs/NPM_PUBLISH.md).

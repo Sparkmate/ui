@@ -31,8 +31,6 @@
     "dev": "tsdown --watch",
     "play": "vite",
     "typecheck": "tsc --noEmit",
-    "bump:prompt": "node ./scripts/prompt-version-bump.mjs",
-    "hooks:install": "cp ./.githooks/pre-commit ./.git/hooks/pre-commit && chmod +x ./.git/hooks/pre-commit",
     "release": "bumpp",
     "prepublishOnly": "bun run build"
   },

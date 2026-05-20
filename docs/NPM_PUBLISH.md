@@ -91,6 +91,6 @@ Do not use granular publish tokens that require OTP in CI.
 
 ## Release flow
 
-1. Bump version (commit hook or manual)
+1. Bump version manually in `package.json` (or `bun run release`)
 2. Push to `main`
 3. GitHub Action publishes only if version not already on npm
