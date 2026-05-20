@@ -1,0 +1,162 @@
+# @sparkmate/ui - Full LLM Guide
+
+This file gives implementation-accurate guidance for coding agents using `@sparkmate/ui`.
+
+## 1) Install and Import
+
+```bash
+bun add @sparkmate/ui
+```
+
+```tsx
+import '@sparkmate/ui/styles.css'
+import { AppSidebar, AgentChat } from '@sparkmate/ui'
+```
+
+Stylesheet import is required. If missing, components look broken.
+
+## 2) What This Package Owns
+
+- Sparkmate visual tokens and utility classes
+- App shell UI primitives
+- AI-core styled chat UI component
+- Full shadcn/ui component exports
+
+## 3) What Consumer App Owns
+
+- Router integration and navigation actions
+- Auth and session management
+- Data fetching / API / state orchestration
+- Nav configuration values (`NavGroup[]`)
+
+Do not assume package ships default app routes.
+
+## 4) Sidebar Usage
+
+`AppSidebar` props:
+- `groups: NavGroup[]` (required)
+- `pathname: string` (required)
+- `onNavigate: (path: string) => void` (required)
+- `user: NavUserInfo` (required)
+- optional:
+  - `onProfileClick`
+  - `onSignOut`
+  - `logoSrc`
+  - `logoIconSrc`
+  - `afterNavMain`
+  - `beforeNavUser`
+
+`NavGroup`:
+- `title: string`
+- `path?: string`
+- `icon?: LucideIcon`
+- `imageSrc?: string`
+- `imageAlt?: string`
+- `items?: NavItem[]`
+
+Use icon or image for top-level nav item visuals.
+
+## 5) Chat Usage
+
+Use `AgentChat` for AI-core style chat frame.
+
+Main props:
+- controlled:
+  - `messages?: AgentChatMessage[]`
+  - `onMessagesChange?: (messages) => void`
+- uncontrolled:
+  - `defaultMessages?: AgentChatMessage[]`
+- submit pipeline:
+  - `onSubmit?: (text) => AgentChatMessage | AgentChatMessage[] | Promise<...>`
+- visual config:
+  - `assistantName`
+  - `assistantAvatarSrc`
+  - `modelLabel`
+  - `emptyTitle`
+  - `emptyDescription`
+  - `placeholder`
+- behavior:
+  - `showClear`
+  - `onClear`
+  - `showClose`
+  - `onClose`
+  - `disabled`
+
+`AgentChat` already handles:
+- Enter to send, Shift+Enter newline
+- auto-resize input
+- auto-scroll
+- "New chat" clear action
+- empty state suggestions
+
+## 6) Canonical Integration Example
+
+```tsx
+import { useState } from 'react'
+import {
+  AgentChat,
+  AppSidebar,
+  SidebarInset,
+  SidebarProvider,
+  type AgentChatMessage,
+  type NavGroup,
+} from '@sparkmate/ui'
+import '@sparkmate/ui/styles.css'
+
+const groups: NavGroup[] = [
+  {
+    title: 'Chat',
+    path: '/chat',
+    imageSrc: '/Kim.png',
+    imageAlt: 'Kim',
+    items: [],
+  },
+]
+
+export function AppShell() {
+  const [pathname, setPathname] = useState('/chat')
+  const [messages, setMessages] = useState<AgentChatMessage[]>([])
+
+  return (
+    <SidebarProvider>
+      <AppSidebar
+        groups={groups}
+        pathname={pathname}
+        onNavigate={setPathname}
+        user={{ name: 'Sparkmate User', email: 'user@sparkmate.com' }}
+      />
+      <SidebarInset className="p-4">
+        <AgentChat
+          messages={messages}
+          onMessagesChange={setMessages}
+          assistantName="Kim"
+          assistantAvatarSrc="/Kim.png"
+          modelLabel="GPT-5.1"
+          onSubmit={async (text) => ({
+            role: 'assistant',
+            content: `Response for: ${text}`,
+          })}
+        />
+      </SidebarInset>
+    </SidebarProvider>
+  )
+}
+```
+
+## 7) Do / Don't
+
+Do:
+- import `@sparkmate/ui/styles.css`
+- pass explicit `groups`, `pathname`, `onNavigate`
+- keep package components presentational
+
+Don't:
+- assume built-in router bindings
+- assume built-in auth provider
+- hardcode app-specific nav in package layer
+
+## 8) Source of Truth
+
+- Public exports: `src/index.ts`
+- App shell examples: `playground/src/App.tsx`
+- Consumer contract: `docs/CONSUMER-CONTRACT.md`

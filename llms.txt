@@ -1,0 +1,59 @@
+# @sparkmate/ui
+
+Machine-readable usage guide for coding agents and LLMs.
+
+## Package
+- Name: `@sparkmate/ui`
+- CSS import required: `@sparkmate/ui/styles.css`
+- JS import: `@sparkmate/ui`
+
+## Core Rules
+- Always import styles once at app root:
+  - `import '@sparkmate/ui/styles.css'`
+- Package is router-agnostic:
+  - consumer owns `pathname` and `onNavigate`
+- Package does not provide app nav config:
+  - consumer must provide `groups: NavGroup[]`
+- Sidebar supports slots:
+  - `afterNavMain`, `beforeNavUser`
+- Nav group supports icon or image:
+  - `icon?: LucideIcon`
+  - `imageSrc?: string`, `imageAlt?: string`
+
+## Primary Components
+- `AppSidebar`
+- `AgentChat`
+- `NavMain`
+- `NavUser`
+- Full shadcn/ui exports from package root
+
+## Minimal App Shell Example
+```tsx
+import '@sparkmate/ui/styles.css'
+import { AppSidebar, SidebarProvider, SidebarInset, type NavGroup } from '@sparkmate/ui'
+
+const groups: NavGroup[] = [{ title: 'Home', path: '/', items: [] }]
+
+<SidebarProvider>
+  <AppSidebar
+    groups={groups}
+    pathname={pathname}
+    onNavigate={navigate}
+    user={{ name: 'User', email: 'user@sparkmate.com' }}
+  />
+  <SidebarInset>{children}</SidebarInset>
+</SidebarProvider>
+```
+
+## Minimal Chat Example
+```tsx
+import { AgentChat } from '@sparkmate/ui'
+
+<AgentChat
+  onSubmit={async (text) => ({ role: 'assistant', content: `Echo: ${text}` })}
+/>
+```
+
+## More
+- Full guide: `./llms-full.txt`
+- Consumer contract: `./docs/CONSUMER-CONTRACT.md`
