@@ -1,9 +1,13 @@
 {
   "name": "@spkm/ui",
   "type": "module",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Shared Sparkmate React UI components and Tailwind CSS.",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sparkmate/ui.git"
+  },
   "sideEffects": [
     "**/*.css"
   ],
