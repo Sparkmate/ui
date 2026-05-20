@@ -26,6 +26,9 @@ jobs:
           node-version: 22.18.0
           registry-url: https://registry.npmjs.org
 
+      - name: Install npm CLI for trusted publishing
+        run: npm install -g npm@latest
+
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
@@ -57,9 +60,18 @@ jobs:
 
       - name: Publish to npm
         if: steps.npm_version.outputs.already_published == 'false'
-        run: npm publish --access public --provenance
+        shell: bash
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          # Use Automation token when set; otherwise npm trusted publishing (OIDC).
+          # Do not export empty NODE_AUTH_TOKEN — that blocks OIDC and causes ENEEDAUTH.
+          if [ -n "$NPM_TOKEN" ]; then
+            export NODE_AUTH_TOKEN="$NPM_TOKEN"
+          fi
+          npm publish --access public --provenance
+        # Trusted publishing: npmjs.com/package/@spkm/ui -> Settings -> Trusted publishing
+        # Fallback token: npm Automation token (classic), org spkm read/write
 
       - name: Skip publish (version already exists)
         if: steps.npm_version.outputs.already_published == 'true'

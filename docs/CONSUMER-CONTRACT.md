@@ -1,12 +1,12 @@
-# Consumer Contract - @sparkmate/ui
+# Consumer Contract - @spkm/ui
 
 This file defines stable integration expectations for app teams and coding agents.
 
 ## Required
 
 - Import CSS exactly once at app root:
-  - `import '@sparkmate/ui/styles.css'`
-- Use package components through `@sparkmate/ui` exports.
+  - `import '@spkm/ui/styles.css'`
+- Use package components through `@spkm/ui` exports.
 
 ## Ownership Boundaries
 

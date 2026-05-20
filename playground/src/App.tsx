@@ -96,7 +96,7 @@ export function App() {
               placeholder="Enter query..."
               onSubmit={async (text) => ({
                 role: 'assistant',
-                content: `Demo response from @sparkmate/ui chat for: "${text}"`,
+                content: `Demo response from @spkm/ui chat for: "${text}"`,
               })}
             />
           </section>

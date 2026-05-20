@@ -1,16 +1,16 @@
-# @sparkmate/ui - Full LLM Guide
+# @spkm/ui - Full LLM Guide
 
-This file gives implementation-accurate guidance for coding agents using `@sparkmate/ui`.
+This file gives implementation-accurate guidance for coding agents using `@spkm/ui`.
 
 ## 1) Install and Import
 
 ```bash
-bun add @sparkmate/ui
+bun add @spkm/ui
 ```
 
 ```tsx
-import '@sparkmate/ui/styles.css'
-import { AppSidebar, AgentChat } from '@sparkmate/ui'
+import '@spkm/ui/styles.css'
+import { AppSidebar, AgentChat } from '@spkm/ui'
 ```
 
 Stylesheet import is required. If missing, components look broken.
@@ -100,8 +100,8 @@ import {
   SidebarProvider,
   type AgentChatMessage,
   type NavGroup,
-} from '@sparkmate/ui'
-import '@sparkmate/ui/styles.css'
+} from '@spkm/ui'
+import '@spkm/ui/styles.css'
 
 const groups: NavGroup[] = [
   {
@@ -146,7 +146,7 @@ export function AppShell() {
 ## 7) Do / Don't
 
 Do:
-- import `@sparkmate/ui/styles.css`
+- import `@spkm/ui/styles.css`
 - pass explicit `groups`, `pathname`, `onNavigate`
 - keep package components presentational
 
