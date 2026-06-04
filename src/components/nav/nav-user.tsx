@@ -23,7 +23,7 @@ export function NavUser({ user, onProfileClick, onSignOut }: NavUserProps) {
           <button
             type="button"
             onClick={onProfileClick}
-            className="flex min-w-0 flex-1 items-center gap-2.5 text-left"
+            className="flex min-w-0 flex-1 cursor-pointer items-center gap-2.5 text-left"
           >
             <Avatar className="h-6 w-6 rounded-full border border-line">
               <AvatarImage
@@ -51,7 +51,7 @@ export function NavUser({ user, onProfileClick, onSignOut }: NavUserProps) {
               onClick={() => {
                 void onSignOut()
               }}
-              className="text-muted transition hover:text-body"
+              className="cursor-pointer text-muted transition hover:text-body"
             >
               <LogOut className="h-3.5 w-3.5" />
             </button>

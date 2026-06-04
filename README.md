@@ -30,15 +30,21 @@ bun add @spkm/ui
 
 ## Package exports
 
-Only three public entry points exist:
+Package now ships root export plus per-component subpath exports.
 
 | Import path | What you get |
 |-------------|--------------|
-| `@spkm/ui` | All React components, hooks, types, and `cn` |
+| `@spkm/ui` | Backward-compatible root export (loads full export surface) |
+| `@spkm/ui/button` | Button module only |
+| `@spkm/ui/sidebar` | Sidebar primitives only |
+| `@spkm/ui/nav-main` | Navigation main module only |
+| `@spkm/ui/nav-user` | Navigation user module only |
+| `@spkm/ui/app-sidebar` | App sidebar wrapper only |
+| `@spkm/ui/agent-chat` | Agent chat module only |
 | `@spkm/ui/styles.css` | Sparkmate tokens, Tailwind base, and component utilities (import once) |
 | `@spkm/ui/package.json` | Package metadata (rarely needed) |
 
-There are **no** deep imports like `@spkm/ui/button`. Import everything from `@spkm/ui`.
+Recommended for best tree-shaking and lower consumer memory: use subpath imports (`@spkm/ui/button`, `@spkm/ui/sidebar`, etc.) instead of root barrel.
 
 ---
 
@@ -122,16 +128,17 @@ export default function App({ Component, pageProps }: AppProps) {
 ## Step 2: Import components
 
 ```tsx
-import {
-  AppSidebar,
-  SidebarProvider,
-  SidebarInset,
-  AgentChat,
-  Button,
-  cn,
-  type NavGroup,
-  type AgentChatMessage,
-} from '@spkm/ui'
+import { Button } from '@spkm/ui/button'
+import { SidebarInset, SidebarProvider } from '@spkm/ui/sidebar'
+import { AppSidebar } from '@spkm/ui/app-sidebar'
+import { AgentChat, type AgentChatMessage } from '@spkm/ui/agent-chat'
+import { type NavGroup } from '@spkm/ui/types/navigation'
+```
+
+Backward-compatible root import still works:
+
+```tsx
+import { AppSidebar, SidebarProvider, SidebarInset, AgentChat, Button } from '@spkm/ui'
 ```
 
 ---
@@ -621,14 +628,10 @@ Stable import block for coding agents:
 
 ```tsx
 import '@spkm/ui/styles.css'
-import {
-  AppSidebar,
-  SidebarProvider,
-  SidebarInset,
-  AgentChat,
-  type NavGroup,
-  type AgentChatMessage,
-} from '@spkm/ui'
+import { AppSidebar } from '@spkm/ui/app-sidebar'
+import { SidebarProvider, SidebarInset } from '@spkm/ui/sidebar'
+import { AgentChat, type AgentChatMessage } from '@spkm/ui/agent-chat'
+import { type NavGroup } from '@spkm/ui/types/navigation'
 ```
 
 Integration rules:
@@ -638,7 +641,7 @@ Integration rules:
 3. App implements `onSubmit` and optional controlled `messages`.
 4. No default nav or auth in the package.
 
-See [docs/CONSUMER-CONTRACT.md](./docs/CONSUMER-CONTRACT.md) for the formal contract.
+See [docs/CONSUMER-CONTRACT.md](./docs/CONSUMER-CONTRACT.md) for formal contract and [docs/MIGRATION-TREE-SHAKING.md](./docs/MIGRATION-TREE-SHAKING.md) for subpath migration.
 
 ---
 

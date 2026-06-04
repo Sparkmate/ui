@@ -197,7 +197,7 @@ export function AgentChat({
                   onClick={() => {
                     void handleSend(suggestion)
                   }}
-                  className="w-full border border-line px-3 py-2.5 text-left text-xs uppercase tracking-wide text-muted transition hover:border-body hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+                  className="w-full cursor-pointer border border-line px-3 py-2.5 text-left text-xs uppercase tracking-wide text-muted transition hover:border-body hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   <span>{`→ ${suggestion}`}</span>
                 </button>
